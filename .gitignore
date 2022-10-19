@@ -11,6 +11,19 @@ coverage/
 coverage*
 /coverage.data
 /coverage/
+.coverage*
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+*.coverage
+*.coveragexml
 
 # production
 /build
