@@ -24,6 +24,7 @@ coverage.xml
 .pytest_cache/
 *.coverage
 *.coveragexml
+coverage
 
 # production
 /build
