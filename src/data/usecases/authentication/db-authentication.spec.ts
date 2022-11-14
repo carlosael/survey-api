@@ -29,7 +29,7 @@ const makeHashComparer = (): HashComparer => {
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
     async load (email: string): Promise<AccountModel> {
-      return await new Promise(resolve => resolve(makeFakeAccount())) || null
+      return await new Promise(resolve => resolve(makeFakeAccount()))
     }
   }
   return new LoadAccountByEmailRepositoryStub()
@@ -120,5 +120,16 @@ describe('DbAuthentication UseCase', () => {
     const generateSpy = jest.spyOn(tokenGeneratorStub, 'generate')
     await sut.auth(makeFakeAuthentication())
     expect(generateSpy).toHaveBeenCalledWith('any_id')
+  })
+
+  test('Should throw if TokenGenerator throws', async () => {
+    const { sut, tokenGeneratorStub } = makeSut()
+    const loadSpy = jest.spyOn(tokenGeneratorStub, 'generate') as unknown as jest.Mock<
+    ReturnType<(key: Error) => Promise<Error>>,
+    Parameters<(key: Error) => Promise<Error>>
+    >
+    loadSpy.mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const promise = sut.auth(makeFakeAuthentication())
+    await expect(promise).rejects.toThrow()
   })
 })
