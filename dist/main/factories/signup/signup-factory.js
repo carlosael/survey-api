@@ -1,0 +1,20 @@
+"use strict";
+exports.__esModule = true;
+exports.makeSignUpController = void 0;
+var signup_controller_1 = require("../../../presentation/controllers/signup/signup-controller");
+var db_add_acount_1 = require("../../../data/usecases/add-account/db-add-acount");
+var bcrypt_adapter_1 = require("../../../infra/criptography/bcrypt-adapter/bcrypt-adapter");
+var account_mongo_repository_1 = require("../../../infra/db/mongodb/account/account-mongo-repository");
+var log_controller_decorator_1 = require("../../decorators/log-controller-decorator");
+var log_mongo_repository_1 = require("../../../infra/db/mongodb/log/log-mongo-repository");
+var signup_validation_factory_1 = require("./signup-validation-factory");
+var makeSignUpController = function () {
+    var salt = 12;
+    var bcryptAdapter = new bcrypt_adapter_1.BcryptAdapter(salt);
+    var accountMongoRepository = new account_mongo_repository_1.AccountMongoRepository();
+    var dbAddAccount = new db_add_acount_1.DbAddAccount(bcryptAdapter, accountMongoRepository);
+    var signUpController = new signup_controller_1.SignUpController(dbAddAccount, (0, signup_validation_factory_1.makeSignUpValidation)());
+    var logMongoRepository = new log_mongo_repository_1.LogMongoRepository();
+    return new log_controller_decorator_1.LogControllerDecorator(signUpController, logMongoRepository);
+};
+exports.makeSignUpController = makeSignUpController;
