@@ -8,6 +8,7 @@
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "up": "npm run build && docker-compose up -d",
     "down": "docker-compose down",
+    "debug": "node --inspect=0.0.0.0:9222 --nolazy dist/main/server.js",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
