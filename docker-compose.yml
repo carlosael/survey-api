@@ -10,10 +10,10 @@ services:
       - "27017:27017"
   api:
     container_name: api-container
-    build: .
+    working_dir: /usr/src/survey-api
     restart: always
-    image: clean-node-api
-    command: npm start
+    image: node:12 
+    command: bash -c "npm start && npm install --only=-prod"
     volumes:
       - ./dist:/usr/src/survey-api/dist
       - ./package.json:/usr/src/survey-api/package.json
