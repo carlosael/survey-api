@@ -30,6 +30,7 @@ coverage
 /build
 dist
 data
+!src/data
 
 # misc
 .DS_Store
