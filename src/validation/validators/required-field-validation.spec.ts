@@ -1,6 +1,6 @@
-import { MissingParamError } from '../../errors'
+import { MissingParamError } from '../../presentation/errors'
 import { RequiredFieldsValidation } from './required-field-validation.ts'
-import { Validation } from '../../protocols/validation'
+import { Validation } from '../../presentation/protocols/validation'
 
 interface SutTypes {
   sut: Validation
