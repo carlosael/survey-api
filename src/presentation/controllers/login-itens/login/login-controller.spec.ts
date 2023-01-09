@@ -1,7 +1,16 @@
-
-import { MissingParamError } from '../../errors'
-import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helper'
-import { HttpRequest, Authentication, Validation, AuthenticaionModel } from './login-controller-protocols'
+import { MissingParamError } from '../../../errors'
+import {
+  badRequest,
+  ok,
+  serverError,
+  unauthorized
+} from '../../../helpers/http/http-helper'
+import {
+  HttpRequest,
+  Authentication,
+  Validation,
+  AuthenticaionModel
+} from './login-controller-protocols'
 import { LoginController } from './login-controller'
 
 const makeAuthentication = (): Authentication => {
@@ -68,14 +77,20 @@ describe('Login Controller', () => {
 
   test('Should return 401 if invalid credentials are provided', async () => {
     const { sut, authenticationStub } = makeSut()
-    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(new Promise((resolve) => resolve('')))
+    jest
+      .spyOn(authenticationStub, 'auth')
+      .mockReturnValueOnce(new Promise((resolve) => resolve('')))
     const httpReponse = await sut.handle(makeFakeRequest())
     expect(httpReponse).toEqual(unauthorized())
   })
 
   test('Should return 500 if Authenticaion throws', async () => {
     const { sut, authenticationStub } = makeSut()
-    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest
+      .spyOn(authenticationStub, 'auth')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
     const httpReponse = await sut.handle(makeFakeRequest())
     expect(httpReponse).toEqual(serverError(new Error()))
   })
@@ -96,7 +111,9 @@ describe('Login Controller', () => {
 
   test('Should return 400 if Validation returns an error', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'))
+    jest
+      .spyOn(validationStub, 'validate')
+      .mockReturnValueOnce(new MissingParamError('any_field'))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')))
   })
