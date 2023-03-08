@@ -1,6 +1,5 @@
 import { DbLoadSurveyById } from './db-load-survey-by-id'
-import { LoadSurveyByIdRepository } from './../../protocols/db/survey/load-survey-by-id-repository'
-import { SurveyModel } from './../../../domain/models/survey'
+import { SurveyModel, LoadSurveyByIdRepository } from './db-load-survey-by-id-protocols'
 import MockDate from 'mockdate'
 
 const makeFakeSurvey = (): SurveyModel => {
@@ -60,7 +59,7 @@ describe('DbLoadSurveyById', () => {
     expect(survey).toEqual(makeFakeSurvey())
   })
 
-  test('Should throw if LoadSurveysRepository throws', async () => {
+  test('Should throw if LoadSurveyByIdRepository throws', async () => {
     const { sut, loadSurveysByIdRepositoryStub } = makeSut()
     const loadSpy = jest.spyOn(loadSurveysByIdRepositoryStub, 'loadById') as unknown as jest.Mock<
     ReturnType<(key: Error) => Promise<Error>>,
